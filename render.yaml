@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: mobileecommerce-backend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: SENTRY_DSN
+        sync: false
+
+  - type: web
+    name: mobileecommerce-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://mobileecommerce-backend.onrender.com/api
+      - key: VITE_SENTRY_DSN
+        sync: false
