@@ -85,7 +85,7 @@ export function HeroSection() {
                 alt={banner.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/60 to-transparent" />
+
             </div>
           ))}
 
