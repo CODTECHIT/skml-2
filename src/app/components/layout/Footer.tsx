@@ -52,6 +52,7 @@ export function Footer() {
           {/* Help */}
           <div>
             <p className="font-poppins font-semibold text-foreground text-sm mb-3">Help & Support</p>
+            <Link to="/about" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">About Us</Link>
             {["Help Center", "Shipping Policy", "Returns & Refunds", "FAQs", "Contact Us"].map((link) => (
               <Link key={link} to="#" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">{link}</Link>
             ))}
