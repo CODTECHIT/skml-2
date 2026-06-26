@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/node";
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
@@ -11,6 +11,7 @@ import rateLimit from "express-rate-limit";
 
 import { initSentry } from "./config/sentry";
 import { errorHandler } from "./middleware/errorMiddleware";
+import { connectDB } from "./config/db";
 
 // Route imports
 import authRoutes from "./routes/authRoutes";
@@ -33,7 +34,15 @@ const app = express();
 
 app.set("trust proxy", 1); // Trust Vercel proxy
 
-// DB is connected once at startup in api/index.ts (not per-request)
+// Ensure DB is connected before every request (cached — fast after first connect)
+app.use(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Performance & Security Middleware
 app.use(compression());
