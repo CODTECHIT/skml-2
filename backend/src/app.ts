@@ -11,6 +11,7 @@ import rateLimit from "express-rate-limit";
 
 import { initSentry } from "./config/sentry";
 import { errorHandler } from "./middleware/errorMiddleware";
+import { connectDB } from "./config/db";
 
 // Route imports
 import authRoutes from "./routes/authRoutes";
@@ -30,6 +31,16 @@ dotenv.config();
 initSentry();
 
 const app = express();
+
+// Ensure DB connection is complete before running Mongoose commands
+app.use(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Performance & Security Middleware
 app.use(compression());
