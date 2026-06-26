@@ -32,6 +32,8 @@ initSentry();
 
 const app = express();
 
+app.set("trust proxy", 1); // Trust Vercel proxy
+
 // Ensure DB connection is complete before running Mongoose commands
 app.use(async (req: Request, res: Response, next: NextFunction) => {
   try {
