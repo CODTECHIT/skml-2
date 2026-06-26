@@ -90,7 +90,6 @@
     "morgan": "^1.10.0",
     "resend": "^3.0.0",
     "@sentry/node": "^8.0.0",
-    "@sentry/profiling-node": "^8.0.0",
     "@vercel/node": "^3.0.0"
   },
   "devDependencies": {

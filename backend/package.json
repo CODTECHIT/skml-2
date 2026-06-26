@@ -28,8 +28,7 @@
     "express-mongo-sanitize": "^2.2.0",
     "morgan": "^1.10.0",
     "resend": "^3.0.0",
-    "@sentry/node": "^8.0.0",
-    "@sentry/profiling-node": "^8.0.0"
+    "@sentry/node": "^8.0.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.5",
