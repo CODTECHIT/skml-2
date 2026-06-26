@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../api/axios";
 import { useGetCategories } from "../../hooks/useData";
@@ -55,12 +55,11 @@ export function HeroSection() {
   });
 
   const { data: categories, isLoading: catsLoading } = useGetCategories();
-  const [activeCategory, setActiveCategory] = useState("All");
+  const location = useLocation();
 
   const banners = dbBanners && dbBanners.length > 0 ? dbBanners : FALLBACK_BANNERS;
 
-  if (bannersLoading && catsLoading) return <HeroSkeleton />;
-
+  // useEffect MUST be before any early return (Rules of Hooks)
   useEffect(() => {
     if (banners.length <= 1) return;
     const timer = setInterval(() => {
@@ -69,26 +68,44 @@ export function HeroSection() {
     return () => clearInterval(timer);
   }, [banners.length]);
 
-  const categoryPills = ["All", ...(categories || []).map((c: any) => c.name)];
+  if (bannersLoading && catsLoading) return <HeroSkeleton />;
+
 
   return (
     <section className="bg-background pt-4 pb-8">
-      {/* Category pills from DB */}
+      {/* Category pills — navigate to category pages */}
       <div className="overflow-x-auto mb-6" style={{ scrollbarWidth: "none" }}>
         <div className="flex items-center gap-3 px-4 py-2 max-w-[1400px] mx-auto" style={{ minWidth: "max-content" }}>
-          {categoryPills.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 flex-shrink-0 border ${
-                activeCategory === cat
-                  ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20"
-                  : "bg-card border-border text-foreground/70 hover:border-primary/50 hover:text-primary"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+          {/* "All" pill */}
+          <Link
+            to="/categories"
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 flex-shrink-0 border ${
+              location.pathname === "/categories" || location.pathname === "/"
+                ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20"
+                : "bg-card border-border text-foreground/70 hover:border-primary/50 hover:text-primary"
+            }`}
+          >
+            All
+          </Link>
+          {/* Category pills from DB */}
+          {(categories || []).map((cat: any) => {
+            const slug = cat.slug || cat.name.toLowerCase().replace(/ /g, "-");
+            const href = `/categories/${slug}`;
+            const isActive = location.pathname === href;
+            return (
+              <Link
+                key={cat._id}
+                to={href}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 flex-shrink-0 border ${
+                  isActive
+                    ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20"
+                    : "bg-card border-border text-foreground/70 hover:border-primary/50 hover:text-primary"
+                }`}
+              >
+                {cat.name}
+              </Link>
+            );
+          })}
         </div>
       </div>
 
