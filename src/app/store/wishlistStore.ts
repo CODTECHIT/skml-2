@@ -1,31 +1,35 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type WishlistState = {
-  wishlist: Set<number>;
-  addWishlist: (id: number) => void;
-  removeWishlist: (id: number) => void;
-  toggleWishlist: (id: number) => void;
+  wishlist: string[];
+  addWishlist: (id: string) => void;
+  removeWishlist: (id: string) => void;
+  toggleWishlist: (id: string) => void;
 };
 
-export const useWishlistStore = create<WishlistState>((set) => ({
-  wishlist: new Set(),
-  addWishlist: (id) =>
-    set((state) => {
-      const next = new Set(state.wishlist);
-      next.add(id);
-      return { wishlist: next };
+export const useWishlistStore = create<WishlistState>()(
+  persist(
+    (set) => ({
+      wishlist: [],
+      addWishlist: (id) =>
+        set((state) => {
+          if (state.wishlist.includes(id)) return state;
+          return { wishlist: [...state.wishlist, id] };
+        }),
+      removeWishlist: (id) =>
+        set((state) => ({
+          wishlist: state.wishlist.filter((item) => item !== id),
+        })),
+      toggleWishlist: (id) =>
+        set((state) => {
+          const exists = state.wishlist.includes(id);
+          if (exists) {
+            return { wishlist: state.wishlist.filter((item) => item !== id) };
+          }
+          return { wishlist: [...state.wishlist, id] };
+        }),
     }),
-  removeWishlist: (id) =>
-    set((state) => {
-      const next = new Set(state.wishlist);
-      next.delete(id);
-      return { wishlist: next };
-    }),
-  toggleWishlist: (id) =>
-    set((state) => {
-      const next = new Set(state.wishlist);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return { wishlist: next };
-    }),
-}));
+    { name: "skml-wishlist" }
+  )
+);

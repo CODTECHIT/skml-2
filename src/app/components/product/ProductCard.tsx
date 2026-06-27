@@ -46,12 +46,12 @@ export function ProductCard({
             e.preventDefault();
             toggleWishlist(id);
           }}
-          aria-label={wishlist.has(id) ? "Remove from wishlist" : "Add to wishlist"}
+          aria-label={wishlist.includes(id) ? "Remove from wishlist" : "Add to wishlist"}
           className="absolute top-2 right-2 z-10 w-8 h-8 bg-card rounded-full flex items-center justify-center shadow-sm border border-border/50 hover:scale-110 transition-transform"
         >
           <Heart
             size={14}
-            className={wishlist.has(id) ? "fill-red-500 text-red-500" : "text-muted-foreground"}
+            className={wishlist.includes(id) ? "fill-red-500 text-red-500" : "text-muted-foreground"}
           />
         </button>
         <div className="bg-secondary/40 h-44 flex items-center justify-center overflow-hidden p-4">

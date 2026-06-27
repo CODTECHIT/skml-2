@@ -20,14 +20,7 @@ export function Search() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
 
-  const { data: allProducts, isLoading } = useGetProducts();
-
-  const searchResults = (allProducts || []).filter((p: any) => {
-    const name = (p.title || p.name || "").toLowerCase();
-    const brand = (p.brand || "").toLowerCase();
-    const q = query.toLowerCase();
-    return name.includes(q) || brand.includes(q);
-  });
+  const { data: searchResults, isLoading } = useGetProducts({ q: query });
 
   return (
     <>
@@ -45,7 +38,7 @@ export function Search() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {Array.from({ length: 10 }).map((_, i) => <ProductSkeleton key={i} />)}
           </div>
-        ) : searchResults.length === 0 ? (
+        ) : !searchResults || searchResults.length === 0 ? (
           <div className="bg-card border border-border rounded-xl p-12 text-center flex flex-col items-center">
             <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mb-4">
               <span className="text-3xl">🔍</span>

@@ -6,11 +6,20 @@ import { ErrorResponse } from "../utils/errorResponse";
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
   let token;
 
-  if (req.cookies.jwt) {
+  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    token = req.headers.authorization.split(" ")[1];
+  } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
 
-  if (!token) {
+  // Fallback to cookie if token is missing or contains the frontend's dummy placeholder
+  if (!token || token === "token-stored-in-cookie") {
+    if (req.cookies.jwt) {
+      token = req.cookies.jwt;
+    }
+  }
+
+  if (!token || token === "token-stored-in-cookie") {
     return next(new ErrorResponse("Not authorized to access this route", 401));
   }
 

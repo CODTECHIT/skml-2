@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
+import { useCartStore } from "../store/cartStore";
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
 import { authService } from "../services/authService";
@@ -15,6 +16,8 @@ export function Register() {
   
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +34,15 @@ export function Register() {
         // Automatically log them in
         login(response.data, "token-stored-in-cookie");
         toast.success("Registered successfully!");
-        navigate("/");
+
+        // Merge guest cart to member account
+        try {
+          await useCartStore.getState().mergeLocalCart();
+        } catch (err) {
+          console.error("Cart merge on registration failed", err);
+        }
+
+        navigate(redirect);
       }
     } catch (error: any) {
       console.error(error);

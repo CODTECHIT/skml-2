@@ -57,7 +57,7 @@ export function ProductDetails() {
   const discount = originalPrice && originalPrice > price
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : null;
-  const inWishlist = wishlist.has(productId);
+  const inWishlist = wishlist.includes(productId);
   const inStock = product.stock == null ? true : product.stock > 0;
 
   return (

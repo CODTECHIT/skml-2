@@ -12,8 +12,8 @@ const orderSchema = new mongoose.Schema(
     ],
     total: { type: Number, required: true },
     paymentMethod: { type: String, enum: ["COD", "Online"], required: true },
-    paymentStatus: { type: String, enum: ["Pending", "Paid", "Failed"], default: "Pending" },
-    orderStatus: { type: String, enum: ["Pending", "Packed", "Shipped", "Delivered"], default: "Pending" },
+    paymentStatus: { type: String, enum: ["Pending", "Paid", "Failed", "Refunded"], default: "Pending" },
+    orderStatus: { type: String, enum: ["Pending", "Packed", "Shipped", "Delivered", "Cancelled", "Refunded"], default: "Pending" },
     trackingId: { type: String },
     trackingUrl: { type: String },
     address: {

@@ -6,6 +6,11 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
   let statusCode = err.statusCode || (res.statusCode === 200 ? 500 : res.statusCode);
   let message = err.message || "Server Error";
 
+  // Hide detailed internal messages in production for 500 errors to prevent data leakage
+  if (statusCode === 500 && process.env.NODE_ENV === "production") {
+    message = "Internal Server Error";
+  }
+
   // If Mongoose not found error, set to 404 and change message
   if (err.name === "CastError" && err.kind === "ObjectId") {
     statusCode = 404;

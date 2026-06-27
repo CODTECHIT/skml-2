@@ -11,6 +11,8 @@ const Tracking = lazy(() => import("../pages/Tracking").then(m => ({ default: m.
 const Profile = lazy(() => import("../pages/Profile").then(m => ({ default: m.Profile })));
 const Login = lazy(() => import("../pages/Login").then(m => ({ default: m.Login })));
 const Register = lazy(() => import("../pages/Register").then(m => ({ default: m.Register })));
+const ForgotPassword = lazy(() => import("../pages/ForgotPassword").then(m => ({ default: m.ForgotPassword })));
+const ResetPassword = lazy(() => import("../pages/ResetPassword").then(m => ({ default: m.ResetPassword })));
 const Categories = lazy(() => import("../pages/Categories").then(m => ({ default: m.Categories })));
 const CategoryProducts = lazy(() => import("../pages/CategoryProducts").then(m => ({ default: m.CategoryProducts })));
 const Search = lazy(() => import("../pages/Search").then(m => ({ default: m.Search })));
@@ -46,6 +48,8 @@ export const router = createBrowserRouter([
       { path: "profile", element: <Suspense fallback={<Loading />}><Profile /></Suspense> },
       { path: "login", element: <Suspense fallback={<Loading />}><Login /></Suspense> },
       { path: "register", element: <Suspense fallback={<Loading />}><Register /></Suspense> },
+      { path: "forgot-password", element: <Suspense fallback={<Loading />}><ForgotPassword /></Suspense> },
+      { path: "reset-password/:resetToken", element: <Suspense fallback={<Loading />}><ResetPassword /></Suspense> },
       { path: "categories", element: <Suspense fallback={<Loading />}><Categories /></Suspense> },
       { path: "categories/:slug", element: <Suspense fallback={<Loading />}><CategoryProducts /></Suspense> },
       { path: "search", element: <Suspense fallback={<Loading />}><Search /></Suspense> },

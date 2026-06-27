@@ -1,9 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import * as Sentry from "@sentry/node";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
-import dotenv from "dotenv";
 import compression from "compression";
 import morgan from "morgan";
 import mongoSanitize from "express-mongo-sanitize";
@@ -24,8 +26,7 @@ import uploadRoutes from "./routes/uploadRoutes";
 
 import userRoutes from "./routes/userRoutes";
 import analyticsRoutes from "./routes/analyticsRoutes";
-
-dotenv.config();
+import cartRoutes from "./routes/cartRoutes";
 
 // Init Sentry
 initSentry();
@@ -56,6 +57,17 @@ const limiter = rateLimit({
 });
 app.use("/api", limiter);
 
+// Strict rate limiter for sensitive authentication endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 15, // limit each IP to 15 attempts per 15 minutes
+  message: "Too many authentication requests, please try again after 15 minutes"
+});
+app.use("/api/auth/login", authLimiter);
+app.use("/api/auth/register", authLimiter);
+app.use("/api/auth/forgot-password", authLimiter);
+app.use("/api/auth/reset-password", authLimiter);
+
 // Middleware
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" })); // Allow images to be loaded from same server
@@ -80,6 +92,7 @@ app.use("/api/banners", bannerRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/analytics", analyticsRoutes); // Mount analytics routes
+app.use("/api/cart", cartRoutes); // Mount cart routes
 
 // Base routes
 app.get("/", (req: Request, res: Response) => {

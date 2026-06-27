@@ -5,6 +5,7 @@ import { MobileNav } from "./MobileNav";
 import { useCartStore } from "../../store/cartStore";
 import { CheckCircle } from "lucide-react";
 import { useEffect } from "react";
+import { useAuthStore } from "../../store/authStore";
 
 function Toast() {
   const toast = useCartStore((state) => state.toast);
@@ -32,13 +33,22 @@ function Toast() {
 export function MainLayout() {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  
+  const { isAuthenticated } = useAuthStore();
+  const syncCart = useCartStore((state) => state.syncCart);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      syncCart();
+    }
+  }, [isAuthenticated, syncCart]);
 
   return (
     <div className="min-h-screen bg-background font-inter pb-16 md:pb-0 flex flex-col">
       <Toast />
       <Header />
       {/* Spacer to push content below the fixed header */}
-      <div className="h-[53px] flex-shrink-0" />
+      <div className="h-[60px] md:h-[92px] flex-shrink-0" />
       <main className="flex-1">
         <Outlet />
       </main>

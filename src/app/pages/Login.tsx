@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
+import { useCartStore } from "../store/cartStore";
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
 import { authService } from "../services/authService";
@@ -14,6 +15,8 @@ export function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,14 +26,23 @@ export function Login() {
       const response = await authService.login({ email, password });
 
       if (response.success) {
+        if (response.data.role === "admin") {
+          setError("Invalid email or password. Please try again.");
+          setLoading(false);
+          return;
+        }
+
         login(response.data, "token-stored-in-cookie");
         toast.success("Logged in successfully");
-
-        if (response.data.role === "admin") {
-          navigate("/admin/mobile");
-        } else {
-          navigate("/");
+        
+        // Merge guest cart to member account
+        try {
+          await useCartStore.getState().mergeLocalCart();
+        } catch (err) {
+          console.error("Cart merge on login failed", err);
         }
+
+        navigate(redirect);
       }
     } catch (err: any) {
       const msg =
@@ -79,7 +91,12 @@ export function Login() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-foreground">Password</label>
+              <div className="flex justify-between items-center">
+                <label className="text-sm font-medium text-foreground">Password</label>
+                <Link to="/forgot-password" className="text-xs font-semibold text-primary hover:underline">
+                  Forgot Password?
+                </Link>
+              </div>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}

@@ -43,11 +43,13 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
       }
     }
 
-    // Text search by title or brand
+    // Text search by title or brand (escaped to prevent ReDoS)
     if (req.query.q) {
+      const q = req.query.q as string;
+      const escapedQuery = q.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
       filter.$or = [
-        { title: { $regex: req.query.q, $options: "i" } },
-        { brand: { $regex: req.query.q, $options: "i" } },
+        { title: { $regex: escapedQuery, $options: "i" } },
+        { brand: { $regex: escapedQuery, $options: "i" } },
       ];
     }
 

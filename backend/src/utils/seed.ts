@@ -17,11 +17,14 @@ const seedData = async () => {
     await Category.deleteMany();
     await Banner.deleteMany();
 
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@example.com";
+    const adminPassword = process.env.ADMIN_PASSWORD || "Admin@123";
+
     const admin = await User.create({
       name: "Admin User",
-      email: "admin@example.com",
+      email: adminEmail,
       phone: "1234567890",
-      password: "Admin@123", // Will be hashed by pre-save hook
+      password: adminPassword, // Will be hashed by pre-save hook
       role: "admin",
     });
 
