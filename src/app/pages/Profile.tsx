@@ -26,9 +26,6 @@ export function Profile() {
     navigate("/");
   };
 
-  if (isAuthenticated && user?.role === "admin") {
-    return <Navigate to="/admin/mobile" replace />;
-  }
 
   if (!isAuthenticated) {
     return (
