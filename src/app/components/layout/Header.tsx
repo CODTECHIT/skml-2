@@ -1,15 +1,23 @@
-import { useState } from "react";
-import { Search, Heart, Bell, ShoppingCart, User, Menu, X, Phone } from "lucide-react";
-import { Link, useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { Search, Heart, Bell, ShoppingCart, User, Menu, X, Phone, MapPin, Loader2 } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router";
 import { useWishlistStore } from "../../store/wishlistStore";
 import { useCartStore } from "../../store/cartStore";
+import { useLocationStore } from "../../store/locationStore";
 
 export function Header() {
   const wishlist = useWishlistStore((state) => state.wishlist);
   const cartCount = useCartStore((state) => state.cartCount);
+  const { location: userLocation, isLoading, requestLocation, error, clearError } = useLocationStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Close mobile menu whenever the route changes
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +43,22 @@ export function Header() {
           <span className="sm:hidden font-poppins font-bold text-foreground text-[14px]">SKML</span>
         </Link>
 
+        {/* Location Button */}
+        <button 
+          onClick={requestLocation} 
+          onMouseDown={() => clearError()}
+          className="hidden sm:flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors border border-border rounded-lg px-2 py-1 bg-secondary/50"
+        >
+          {isLoading ? (
+            <Loader2 size={12} className="animate-spin" />
+          ) : (
+            <MapPin size={12} className="text-accent" />
+          )}
+          <span className="truncate max-w-[100px]">
+            {userLocation || (error ? "Retry" : "Set Location")}
+          </span>
+        </button>
+
         {/* Search — full width, always visible */}
         <form onSubmit={handleSearch} className="flex-1 relative min-w-0">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -57,6 +81,20 @@ export function Header() {
 
         {/* Icon cluster */}
         <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
+          {/* Mobile Location Button */}
+          <button 
+            onClick={requestLocation}
+            onMouseDown={() => clearError()}
+            className="sm:hidden flex w-9 h-9 items-center justify-center rounded-full hover:bg-secondary transition-colors"
+            aria-label="Get Location"
+          >
+            {isLoading ? (
+              <Loader2 size={16} className="animate-spin text-primary" />
+            ) : (
+              <MapPin size={16} className="text-accent" />
+            )}
+          </button>
+
           {/* Wishlist — hidden on mobile (shown in bottom nav area) */}
           <button aria-label="Wishlist" className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full hover:bg-secondary transition-colors relative">
             <Heart size={18} className="text-muted-foreground hover:text-accent transition-colors" />
@@ -96,6 +134,19 @@ export function Header() {
       {/* Mobile dropdown menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-card border-t border-border px-4 py-4 flex flex-col gap-3 text-sm font-medium text-foreground shadow-lg">
+          {/* Location option for mobile menu */}
+          <button 
+            onClick={requestLocation}
+            onMouseDown={() => clearError()}
+            className="flex items-center gap-2 py-2 border-b border-border text-muted-foreground hover:text-primary"
+          >
+            {isLoading ? (
+              <Loader2 size={16} className="animate-spin text-primary" />
+            ) : (
+              <MapPin size={16} className="text-accent" />
+            )}
+            <span>{userLocation || (error ? "Retry Location" : "Set Location")}</span>
+          </button>
           {/* Mobile search form */}
           <form onSubmit={handleSearch} className="relative">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />

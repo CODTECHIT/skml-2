@@ -140,16 +140,21 @@ export const useGetOrders = () => {
 export const useUpdateOrderStatus = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, status }: { id: string, status: string }) => {
-      const { data } = await api.put(`/orders/${id}`, { orderStatus: status });
+    mutationFn: async ({ id, orderStatus, trackingId, trackingUrl }: { 
+      id: string; 
+      orderStatus?: string;
+      trackingId?: string;
+      trackingUrl?: string;
+    }) => {
+      const { data } = await api.put(`/orders/${id}`, { orderStatus, trackingId, trackingUrl });
       return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "orders"] });
-      toast.success("Order status updated");
+      toast.success("Order updated successfully");
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || "Failed to update status");
+      toast.error(error.response?.data?.message || "Failed to update order");
     }
   });
 };

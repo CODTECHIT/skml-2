@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { MobileNav } from "./MobileNav";
@@ -30,6 +30,9 @@ function Toast() {
 }
 
 export function MainLayout() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
   return (
     <div className="min-h-screen bg-background font-inter pb-16 md:pb-0 flex flex-col">
       <Toast />
@@ -39,7 +42,7 @@ export function MainLayout() {
       <main className="flex-1">
         <Outlet />
       </main>
-      <Footer />
+      {isHome && <Footer />}
       <MobileNav />
     </div>
   );

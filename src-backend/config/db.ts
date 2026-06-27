@@ -14,10 +14,7 @@ export const connectDB = async () => {
 
   if (!cached.promise) {
     const opts = {
-      maxPoolSize: 3,       // Serverless: each instance handles 1 request, no need for large pools
-      minPoolSize: 1,       // Keep 1 connection alive for warm instances
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
+      bufferCommands: false,
     };
 
     console.log("Establishing new database connection");

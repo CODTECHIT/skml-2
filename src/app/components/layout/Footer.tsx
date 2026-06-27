@@ -1,7 +1,17 @@
 import { Phone, MapPin, Mail, Shield, Facebook, Instagram, MessageCircle, Youtube } from "lucide-react";
 import { Link } from "react-router";
 
+const WHATSAPP_NUMBER = "916300200986";
+const INSTAGRAM_URL = "https://www.instagram.com/skml_mobiless_store_?utm_source=qr&igsh=MXNoa3E3bzg2MjhyYQ==";
+
 export function Footer() {
+  const socialLinks = [
+    { icon: Facebook, url: "#" },
+    { icon: Instagram, url: INSTAGRAM_URL },
+    { icon: MessageCircle, url: `https://wa.me/${WHATSAPP_NUMBER}?text=OK` },
+    { icon: Youtube, url: "#" },
+  ];
+
   return (
     <footer className="bg-secondary text-foreground pt-10 pb-6 border-t border-border">
       <div className="max-w-[1400px] mx-auto px-4">
@@ -21,14 +31,17 @@ export function Footer() {
               Your one-stop destination for mobiles, accessories, spares, and trusted repair service — retail & wholesale.
             </p>
             <div className="flex items-center gap-2">
-              {[Facebook, Instagram, MessageCircle, Youtube].map((Icon, i) => (
-                <button
+              {socialLinks.map((social, i) => (
+                <a
                   key={i}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Social link"
                   className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-white hover:border-primary transition-colors"
                 >
-                  <Icon size={13} />
-                </button>
+                  <social.icon size={13} />
+                </a>
               ))}
             </div>
           </div>

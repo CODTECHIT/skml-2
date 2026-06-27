@@ -1,10 +1,14 @@
-import { Edit, Package } from "lucide-react";
+import { Edit, Package, Save } from "lucide-react";
 import { useGetOrders, useUpdateOrderStatus } from "../../../hooks/admin/useAdminData";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export function OrderTable() {
   const { data: orders, isLoading } = useGetOrders();
-  const updateStatus = useUpdateOrderStatus();
+  const updateOrder = useUpdateOrderStatus();
+  const [editingOrder, setEditingOrder] = useState<string | null>(null);
+  const [trackingIdInput, setTrackingIdInput] = useState("");
+  const [trackingUrlInput, setTrackingUrlInput] = useState("");
 
   if (isLoading) {
     return (
@@ -28,6 +32,22 @@ export function OrderTable() {
     );
   }
 
+  const startEditing = (order: any) => {
+    setEditingOrder(order._id);
+    setTrackingIdInput(order.trackingId || "");
+    setTrackingUrlInput(order.trackingUrl || "");
+  };
+
+  const saveOrder = (orderId: string, currentStatus: string) => {
+    updateOrder.mutate({
+      id: orderId,
+      orderStatus: currentStatus,
+      trackingId: trackingIdInput,
+      trackingUrl: trackingUrlInput
+    });
+    setEditingOrder(null);
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left border-collapse">
@@ -38,6 +58,8 @@ export function OrderTable() {
             <th className="pb-4 px-4 font-medium uppercase tracking-wider text-xs">Date</th>
             <th className="pb-4 px-4 font-medium uppercase tracking-wider text-xs">Total</th>
             <th className="pb-4 px-4 font-medium uppercase tracking-wider text-xs">Status</th>
+            <th className="pb-4 px-4 font-medium uppercase tracking-wider text-xs">Tracking ID</th>
+            <th className="pb-4 px-4 font-medium uppercase tracking-wider text-xs">Tracking URL</th>
             <th className="pb-4 px-4 font-medium uppercase tracking-wider text-xs text-right">Actions</th>
           </tr>
         </thead>
@@ -68,8 +90,14 @@ export function OrderTable() {
                     'bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100'
                   }`}
                   defaultValue={order.orderStatus}
-                  onChange={(e) => updateStatus.mutate({ id: order._id, status: e.target.value })}
-                  disabled={updateStatus.isPending}
+                  onChange={(e) => {
+                    if (editingOrder === order._id) {
+                      // If editing, just update - we'll save on click
+                    } else {
+                      updateOrder.mutate({ id: order._id, orderStatus: e.target.value });
+                    }
+                  }}
+                  disabled={updateOrder.isPending}
                 >
                   <option value="Pending">Pending</option>
                   <option value="Packed">Packed</option>
@@ -77,10 +105,53 @@ export function OrderTable() {
                   <option value="Delivered">Delivered</option>
                 </select>
               </td>
+              <td className="py-4 px-4">
+                {editingOrder === order._id ? (
+                  <input
+                    type="text"
+                    value={trackingIdInput}
+                    onChange={(e) => setTrackingIdInput(e.target.value)}
+                    placeholder="Tracking ID"
+                    className="w-full px-2 py-1 text-xs border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  />
+                ) : (
+                  <span className="text-xs text-muted-foreground">{order.trackingId || "-"}</span>
+                )}
+              </td>
+              <td className="py-4 px-4">
+                {editingOrder === order._id ? (
+                  <input
+                    type="text"
+                    value={trackingUrlInput}
+                    onChange={(e) => setTrackingUrlInput(e.target.value)}
+                    placeholder="Tracking URL"
+                    className="w-full px-2 py-1 text-xs border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  />
+                ) : order.trackingUrl ? (
+                  <a href={order.trackingUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline truncate block">
+                    {order.trackingUrl}
+                  </a>
+                ) : (
+                  <span className="text-xs text-muted-foreground">-</span>
+                )}
+              </td>
               <td className="py-4 px-4 text-right">
-                <button className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
-                  <Edit size={16} />
-                </button>
+                {editingOrder === order._id ? (
+                  <button 
+                    onClick={() => saveOrder(order._id, order.orderStatus)}
+                    disabled={updateOrder.isPending}
+                    className="p-2 text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    <Save size={16} />
+                  </button>
+                ) : (
+                  <button 
+                    onClick={() => startEditing(order)}
+                    className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                  >
+                    <Edit size={16} />
+                  </button>
+                )}
               </td>
             </motion.tr>
           ))}

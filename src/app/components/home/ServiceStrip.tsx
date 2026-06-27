@@ -1,6 +1,13 @@
 import { Zap } from "lucide-react";
 
+const WHATSAPP_NUMBER = "916300200986";
+const SERVICE_MESSAGE = "Hi, I want to book a mobile service (Display Replacement / Battery Change / Dead Board Recovery)";
+
 export function ServiceStrip() {
+  const handleBookService = () => {
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(SERVICE_MESSAGE)}`, "_blank");
+  };
+
   return (
     <section className="max-w-[1400px] mx-auto px-4 pb-8">
       <div className="bg-gradient-to-r from-[#E3F7FB] to-[#F0FBFD] border border-[#B2E5F0] rounded-2xl px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -15,7 +22,10 @@ export function ServiceStrip() {
             </p>
           </div>
         </div>
-        <button className="border-2 border-primary text-primary font-semibold text-sm px-5 py-2 rounded-full hover:bg-primary hover:text-white transition-all flex-shrink-0 active:scale-95">
+        <button 
+          onClick={handleBookService}
+          className="border-2 border-primary text-primary font-semibold text-sm px-5 py-2 rounded-full hover:bg-primary hover:text-white transition-all flex-shrink-0 active:scale-95"
+        >
           Book Service
         </button>
       </div>

@@ -34,7 +34,7 @@ const app = express();
 
 app.set("trust proxy", 1); // Trust Vercel proxy
 
-// Ensure DB is connected before every request (cached — fast after first connect)
+// Ensure DB connection is complete before running Mongoose commands
 app.use(async (req: Request, res: Response, next: NextFunction) => {
   try {
     await connectDB();
@@ -46,7 +46,7 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 
 // Performance & Security Middleware
 app.use(compression());
-if (process.env.NODE_ENV !== "production") app.use(morgan("dev")); // skip logging in prod
+app.use(morgan("dev"));
 app.use(mongoSanitize());
 
 const limiter = rateLimit({
@@ -60,17 +60,7 @@ app.use("/api", limiter);
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" })); // Allow images to be loaded from same server
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow same-origin requests (no origin header) and configured frontend URL(s)
-    const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
-      .split(",")
-      .map((o) => o.trim());
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`CORS: origin ${origin} not allowed`));
-    }
-  },
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
   credentials: true
 }));
 app.use(express.json());

@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { Order } from "../models/Order";
 import { ErrorResponse } from "../utils/errorResponse";
 import { z } from "zod";
+import { sendInvoice } from "../services/emailService";
+import { User } from "../models/User";
 
 const orderSchema = z.object({
   products: z.array(z.object({
@@ -31,9 +33,9 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
   try {
     let orders;
     if ((req as any).user.role === "admin") {
-      orders = await Order.find({}).populate("userId", "name email").sort("-createdAt");
+      orders = await Order.find({}).populate("userId", "name email").populate("products.productId").sort("-createdAt");
     } else {
-      orders = await Order.find({ userId: (req as any).user._id }).sort("-createdAt");
+      orders = await Order.find({ userId: (req as any).user._id }).populate("products.productId").sort("-createdAt");
     }
     res.status(200).json({ success: true, message: "Orders fetched", data: orders });
   } catch (error) {
@@ -43,7 +45,7 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
 
 export const getOrderById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const order = await Order.findById(req.params.id).populate("userId", "name email");
+    const order = await Order.findById(req.params.id).populate("userId", "name email").populate("products.productId");
     if (!order) return next(new ErrorResponse("Order not found", 404));
     
     if ((req as any).user.role !== "admin" && order.userId._id.toString() !== (req as any).user._id.toString()) {
@@ -64,6 +66,32 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
       userId: (req as any).user._id,
       paymentStatus: data.paymentMethod === "COD" ? "Pending" : "Paid"
     });
+    
+    const populatedOrder = await Order.findById(order._id).populate("userId", "name email").populate("products.productId");
+    const user = await User.findById((req as any).user._id);
+    
+    if (user && user.email && populatedOrder && order.address) {
+      await sendInvoice(user.email, {
+        _id: order._id,
+        createdAt: order.createdAt,
+        status: order.orderStatus,
+        totalAmount: order.total,
+        items: populatedOrder.products.map((item: any) => ({
+          product: item.productId,
+          quantity: item.quantity,
+          price: item.price
+        })),
+        shippingAddress: {
+          name: order.address.fullName,
+          address: order.address.street,
+          city: order.address.city,
+          state: order.address.state,
+          pinCode: order.address.zipCode,
+          phone: order.address.phone
+        }
+      });
+    }
+    
     res.status(201).json({ success: true, message: "Order created", data: order });
   } catch (error) {
     next(error);
