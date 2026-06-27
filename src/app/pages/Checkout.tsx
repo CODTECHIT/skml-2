@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { useNavigate, Navigate } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { AddressForm, AddressData } from "../components/checkout/AddressForm";
@@ -13,6 +13,7 @@ export function Checkout() {
   const clearCart = useCartStore((state) => state.clearCart);
   const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+  const [isMounted, setIsMounted] = useState(false);
 
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,14 @@ export function Checkout() {
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof AddressData, string>>>({});
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <div className="min-h-screen flex items-center justify-center text-primary">Loading...</div>;
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login?redirect=checkout" replace />;
