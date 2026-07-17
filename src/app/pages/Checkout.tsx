@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { useNavigate, Navigate } from "react-router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { AddressForm, AddressData } from "../components/checkout/AddressForm";
@@ -15,7 +15,6 @@ export function Checkout() {
   const clearCart = useCartStore((state) => state.clearCart);
   const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
-  const [isMounted, setIsMounted] = useState(false);
 
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [loading, setLoading] = useState(false);
@@ -30,14 +29,6 @@ export function Checkout() {
 
   const [errors, setErrors] = useState<Partial<Record<keyof AddressData, string>>>({});
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return <div className="min-h-screen flex items-center justify-center text-primary">Loading...</div>;
-  }
-
   if (!isAuthenticated) {
     return <Navigate to="/login?redirect=checkout" replace />;
   }
@@ -49,7 +40,7 @@ export function Checkout() {
 
   const validateForm = (): boolean => {
     const newErrors: Partial<Record<keyof AddressData, string>> = {};
-    
+
     if (!address.fullName.trim()) {
       newErrors.fullName = "Full name is required.";
     } else if (!/^[a-zA-Z\s]{3,50}$/.test(address.fullName.trim())) {
@@ -234,7 +225,7 @@ export function Checkout() {
       </Helmet>
       <div className="max-w-[1400px] mx-auto px-4 py-8 font-poppins">
         <h1 className="font-bold text-2xl text-foreground mb-6">Checkout</h1>
-        
+
         {cartItems.length === 0 ? (
           <div className="text-center py-16 bg-card border border-border rounded-2xl shadow-sm flex flex-col items-center">
             <p className="text-muted-foreground mb-4 text-lg font-medium">Your cart is empty</p>
@@ -248,7 +239,7 @@ export function Checkout() {
               <div className="bg-card border border-border rounded-2xl p-5 shadow-sm">
                 <AddressForm address={address} onChange={handleAddressChange} errors={errors} />
               </div>
-              
+
               <div className="bg-card border border-border rounded-2xl p-5 shadow-sm space-y-4">
                 <h3 className="font-bold text-foreground text-lg mb-2">Payment Method</h3>
                 <div className="space-y-3">
@@ -277,10 +268,10 @@ export function Checkout() {
                 </div>
               </div>
             </div>
-            
+
             <div className="lg:w-[380px]">
               <OrderSummary subtotal={subtotal} deliveryCharge={deliveryCharge} />
-              <button 
+              <button
                 onClick={handlePlaceOrder}
                 disabled={loading || cartItems.length === 0}
                 className="mt-4 w-full flex justify-center bg-primary text-white font-bold py-3.5 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed items-center gap-2"
