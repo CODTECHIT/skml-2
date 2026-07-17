@@ -10,7 +10,7 @@ export function AdminSidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen
 
   const NAV_ITEMS = [
     { label: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
-    { label: "HBGO", path: "/admin/HBGO", icon: ShoppingBag },
+    { label: "SKML", path: "/admin/SKML", icon: ShoppingBag },
     { label: "Categories", path: "/admin/categories", icon: Layers },
     { label: "Orders", path: "/admin/orders", icon: ShoppingCart },
     { label: "Banners", path: "/admin/banners", icon: ImageIcon },
@@ -34,7 +34,7 @@ export function AdminSidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen
       <aside className={`fixed top-0 left-0 bottom-0 w-64 bg-[#0A2E36] text-white z-50 flex flex-col transform transition-transform duration-300 lg:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
         {/* Logo */}
         <div className="h-16 flex items-center px-6 font-poppins font-bold text-xl tracking-wide border-b border-white/10 flex-shrink-0">
-          HBGO <span className="text-[#00B4D8] ml-1">ADMIN</span>
+          SKML <span className="text-[#00B4D8] ml-1">ADMIN</span>
         </div>
 
         {/* Nav items — scrollable, fills remaining space */}

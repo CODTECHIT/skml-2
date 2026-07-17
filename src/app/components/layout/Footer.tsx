@@ -22,10 +22,10 @@ export function Footer() {
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2.5 mb-3">
               <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center shadow-sm overflow-hidden border border-border">
-                <img src={settings?.logoUrl || "/image.jpeg"} alt="HBGO Logo" className="w-full h-full object-contain" />
+                <img src={settings?.logoUrl || "/image.jpeg"} alt="SKML Logo" className="w-full h-full object-contain" />
               </div>
               <div className="leading-none">
-                <p className="font-poppins font-bold text-foreground text-[14px]">{settings?.storeName || "HBGO"}</p>
+                <p className="font-poppins font-bold text-foreground text-[14px]">{settings?.storeName || "SKML"}</p>
                 <p className="text-[9px] text-muted-foreground tracking-wide">Electronics · Fashion · Lifestyle</p>
               </div>
             </div>
@@ -99,7 +99,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-muted-foreground text-xs">© 2026 HBGO. All rights reserved.</p>
+          <p className="text-muted-foreground text-xs">© 2026 SKML. All rights reserved.</p>
           <div className="flex items-center gap-1.5">
             {["VISA", "MC", "UPI", "Paytm", "COD"].map((badge) => (
               <span

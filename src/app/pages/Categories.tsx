@@ -17,8 +17,8 @@ export function Categories() {
   return (
     <>
       <Helmet>
-        <title>All Categories | HBGO</title>
-        <meta name="description" content="Browse all categories of products at HBGO." />
+        <title>All Categories | SKML</title>
+        <meta name="description" content="Browse all categories of products at SKML." />
       </Helmet>
 
       <div className="max-w-[1400px] mx-auto px-4 py-8">

@@ -9,8 +9,8 @@ export function Home() {
   return (
     <div className="bg-gradient-to-b from-primary/15 via-primary/5 to-accent/15 min-h-screen">
       <Helmet>
-        <title>HBGO | Best Deals on Electronics & Fashion</title>
-        <meta name="description" content="Shop the latest electronics, fashion, and lifestyle products at HBGO." />
+        <title>SKML | Best Deals on Electronics & Fashion</title>
+        <meta name="description" content="Shop the latest electronics, fashion, and lifestyle products at SKML." />
       </Helmet>
       <div className="pt-2">
         <HeroSection />

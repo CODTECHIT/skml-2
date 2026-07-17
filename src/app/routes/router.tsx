@@ -69,9 +69,9 @@ export const router = createBrowserRouter([
         path: "",
         element: <Suspense fallback={<Loading />}><AdminLayout /></Suspense>,
         children: [
-          { index: true, element: <Navigate to="HBGO" replace /> },
+          { index: true, element: <Navigate to="SKML" replace /> },
           { path: "dashboard", element: <Suspense fallback={<Loading />}><Dashboard /></Suspense> },
-          { path: "HBGO", element: <Suspense fallback={<Loading />}><AdminMobiles /></Suspense> },
+          { path: "SKML", element: <Suspense fallback={<Loading />}><AdminMobiles /></Suspense> },
           { path: "categories", element: <Suspense fallback={<Loading />}><AdminCategories /></Suspense> },
           { path: "orders", element: <Suspense fallback={<Loading />}><AdminOrders /></Suspense> },
           { path: "banners", element: <Suspense fallback={<Loading />}><AdminBanners /></Suspense> },

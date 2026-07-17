@@ -30,7 +30,7 @@ export function AdminLogin() {
 
         login(response.data, "token-stored-in-cookie");
         toast.success("Welcome back, Admin!");
-        navigate("/admin/HBGO");
+        navigate("/admin/SKML");
       }
     } catch (err: any) {
       const msg =

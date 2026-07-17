@@ -79,7 +79,7 @@ export function Header() {
           to="/" 
           className="hidden md:flex items-center hover:opacity-80 transition-opacity select-none"
         >
-          <img src={settings?.logoUrl || "/image.jpeg"} alt="HBGO Logo" className="h-14 w-auto object-contain rounded" />
+          <img src={settings?.logoUrl || "/image.jpeg"} alt="SKML Logo" className="h-14 w-auto object-contain rounded" />
         </Link>
 
         {/* Desktop Categories Navigation */}
@@ -115,7 +115,7 @@ export function Header() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search HBGO..."
+              placeholder="Search SKML..."
               className="w-full bg-background border border-border rounded-full pl-4 pr-12 py-1.5 text-[11px] focus:outline-none focus:border-foreground/45 transition-all placeholder:text-muted-foreground/60 font-medium"
             />
             <button
@@ -177,7 +177,7 @@ export function Header() {
               to="/" 
               className="flex items-center justify-center hover:opacity-80 transition-opacity"
             >
-              <img src={settings?.logoUrl || "/image.jpeg"} alt="HBGO Logo" className="h-10 w-auto object-contain rounded" />
+              <img src={settings?.logoUrl || "/image.jpeg"} alt="SKML Logo" className="h-10 w-auto object-contain rounded" />
             </Link>
           </div>
 
@@ -232,7 +232,7 @@ export function Header() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search HBGO..."
+              placeholder="Search SKML..."
               className="w-full bg-background border border-border rounded-full pl-4 pr-12 py-1.5 text-xs focus:outline-none focus:border-foreground/50 font-medium"
               autoFocus
             />

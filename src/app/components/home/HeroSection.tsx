@@ -25,15 +25,16 @@ const FALLBACK_BANNERS = [
 
 function HeroSkeleton() {
   return (
-    <section className="bg-transparent pt-4 pb-8">
-      {/* Category pills skeleton */}
-      <div className="overflow-x-auto mb-6" style={{ scrollbarWidth: "none" }}>
-        <div className="flex items-center gap-3 px-4 py-2 max-w-[1400px] mx-auto" style={{ minWidth: "max-content" }}>
+    <section className="bg-transparent pb-8">
+      {/* Category bar skeleton */}
+      <div className="w-full bg-card border-b border-border overflow-x-auto mb-6">
+        <div className="flex items-center gap-4 px-4 h-11 max-w-[1400px] mx-auto">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="h-9 w-20 rounded-full bg-muted animate-pulse" />
+            <div key={i} className="h-4 w-16 rounded bg-muted animate-pulse" />
           ))}
         </div>
       </div>
+
       {/* Banner skeleton */}
       <div className="relative overflow-hidden mx-4 rounded-3xl max-w-[1400px] lg:mx-auto border border-border/50">
         <div className="h-64 sm:h-72 md:h-96 lg:h-[32rem] bg-muted animate-pulse rounded-3xl" />
@@ -72,35 +73,24 @@ export function HeroSection() {
 
 
   return (
-    <section className="bg-transparent pt-4 pb-8">
-      {/* Category pills — navigate to category pages */}
-      <div className="overflow-x-auto mb-6" style={{ scrollbarWidth: "none" }}>
-        <div className="flex items-center gap-3 px-4 py-2 max-w-[1400px] mx-auto" style={{ minWidth: "max-content" }}>
-          {/* "All" pill */}
+    <section className="bg-transparent pb-8">
+      {/* Light Amazon-style Category Bar */}
+      <div className="w-full bg-card border-b border-border text-muted-foreground overflow-x-auto mb-6 shadow-sm" style={{ scrollbarWidth: "none" }}>
+        <div className="flex items-center px-4 h-11 max-w-[1400px] mx-auto gap-2 md:gap-4" style={{ minWidth: "max-content" }}>
           <Link
             to="/categories"
-            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 flex-shrink-0 border ${
-              location.pathname === "/categories" || location.pathname === "/"
-                ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20"
-                : "bg-card border-border text-foreground/70 hover:border-primary/50 hover:text-primary"
-            }`}
+            className="px-2 py-1 text-sm font-medium border-b-2 border-transparent hover:border-primary hover:text-primary transition-all whitespace-nowrap"
           >
             All
           </Link>
-          {/* Category pills from DB */}
           {(categories || []).map((cat: any) => {
             const slug = cat.slug || cat.name.toLowerCase().replace(/ /g, "-");
             const href = `/categories/${slug}`;
-            const isActive = location.pathname === href;
             return (
               <Link
                 key={cat._id}
                 to={href}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 flex-shrink-0 border ${
-                  isActive
-                    ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20"
-                    : "bg-card border-border text-foreground/70 hover:border-primary/50 hover:text-primary"
-                }`}
+                className="px-2 py-1 text-sm font-medium border-b-2 border-transparent hover:border-primary hover:text-primary transition-all whitespace-nowrap"
               >
                 {cat.name}
               </Link>
