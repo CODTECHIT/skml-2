@@ -79,7 +79,7 @@ export function Footer() {
             <div className="space-y-2.5">
               <p className="flex items-start gap-2 text-muted-foreground text-xs leading-relaxed">
                 <MapPin size={11} className="flex-shrink-0 mt-0.5 text-primary" />
-                {settings?.address || "Vempalli, Kadapa, (district), Andhra Pradesh"}
+                {settings?.address || "Near RTC Complex, Yellamanchili, Pincode 531055, Anakapalli District"}
               </p>
               <p className="flex items-center gap-2 text-muted-foreground text-xs">
                 <Mail size={11} className="flex-shrink-0 text-primary" />

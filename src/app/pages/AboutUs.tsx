@@ -11,7 +11,7 @@ export function AboutUs() {
         <title>About Us | SKML</title>
         <meta
           name="description"
-          content="Learn about SKML — your trusted destination for electronics, fashion, and lifestyle products in Kadapa."
+          content="Learn about SKML — your trusted destination for all mobiles, accessories, and services in Yellamanchili, Anakapalli District."
         />
       </Helmet>
 
@@ -26,7 +26,7 @@ export function AboutUs() {
             About <span className="text-primary">SKML</span>
           </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-            Your one-stop destination for electronics, fashion, beauty, and home essentials — serving Kadapa and beyond.
+            Your one-stop destination for all mobiles, accessories, spares, and services — serving Yellamanchili, Anakapalli and beyond.
           </p>
         </div>
       </section>
