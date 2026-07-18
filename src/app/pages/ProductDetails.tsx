@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "react-router";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Heart, ShoppingCart, ArrowLeft } from "lucide-react";
+import { Heart, ShoppingCart, ArrowLeft, Share2 } from "lucide-react";
 import { useCartStore } from "../store/cartStore";
 import { useWishlistStore } from "../store/wishlistStore";
 import { StarRating } from "../components/product/StarRating";
 import { useGetProductById } from "../hooks/useData";
-
 function ProductDetailSkeleton() {
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-8">
@@ -30,6 +30,8 @@ function ProductDetailSkeleton() {
 export function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomStyle, setZoomStyle] = useState({ transformOrigin: 'center center' });
 
   const { data: product, isLoading, isError } = useGetProductById(id);
   const addToCart = useCartStore((state) => state.addToCart);
@@ -60,6 +62,23 @@ export function ProductDetails() {
   const inWishlist = wishlist.includes(productId);
   const inStock = product.stock == null ? true : product.stock > 0;
 
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: name,
+          text: `Check out ${name} on SKML Mobiles!`,
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (err) {
+      console.log('Error sharing', err);
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -75,16 +94,40 @@ export function ProductDetails() {
         <div className="bg-card rounded-2xl p-6 border border-border shadow-sm flex flex-col md:flex-row gap-8">
           {/* Image */}
           <div className="md:w-1/2 flex items-center justify-center bg-muted rounded-xl p-8 relative">
-            <button
-              onClick={() => toggleWishlist(productId)}
-              className="absolute top-4 right-4 p-2.5 bg-background rounded-full shadow-sm hover:scale-110 active:scale-95 transition-transform"
+            <div className="absolute top-4 right-4 flex flex-col gap-3 z-10">
+              <button
+                onClick={() => toggleWishlist(productId)}
+                className="p-2.5 bg-background rounded-full shadow-sm hover:scale-110 active:scale-95 transition-transform"
+                title="Add to Wishlist"
+              >
+                <Heart size={20} className={inWishlist ? "fill-destructive text-destructive" : "text-muted-foreground"} />
+              </button>
+              <button
+                onClick={handleShare}
+                className="p-2.5 bg-background rounded-full shadow-sm hover:scale-110 active:scale-95 transition-transform"
+                title="Share Product"
+              >
+                <Share2 size={20} className="text-muted-foreground" />
+              </button>
+            </div>
+            
+            <div 
+              className="relative overflow-hidden cursor-zoom-in w-full h-full flex items-center justify-center rounded-xl"
+              onMouseEnter={() => setIsZoomed(true)}
+              onMouseLeave={() => setIsZoomed(false)}
+              onMouseMove={(e) => {
+                const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+                const x = ((e.clientX - left) / width) * 100;
+                const y = ((e.clientY - top) / height) * 100;
+                setZoomStyle({ transformOrigin: `${x}% ${y}%` });
+              }}
             >
-              <Heart size={20} className={inWishlist ? "fill-destructive text-destructive" : "text-muted-foreground"} />
-            </button>
-            <img src={image} alt={name}
-              className="w-full max-w-sm object-contain"
-              onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.png"; }}
-            />
+              <img src={image} alt={name}
+                className={`w-full max-w-sm object-contain transition-transform duration-200 ease-out ${isZoomed ? 'scale-[2.5]' : 'scale-100'}`}
+                style={isZoomed ? zoomStyle : undefined}
+                onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.png"; }}
+              />
+            </div>
           </div>
 
           {/* Info */}
