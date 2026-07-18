@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Heart, ShoppingCart, ArrowLeft, Share2 } from "lucide-react";
+import { Heart, ShoppingCart, ArrowLeft, Share2, X } from "lucide-react";
 import { useCartStore } from "../store/cartStore";
 import { useWishlistStore } from "../store/wishlistStore";
 import { StarRating } from "../components/product/StarRating";
@@ -32,6 +32,7 @@ export function ProductDetails() {
   const navigate = useNavigate();
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomStyle, setZoomStyle] = useState({ transformOrigin: 'center center' });
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const { data: product, isLoading, isError } = useGetProductById(id);
   const addToCart = useCartStore((state) => state.addToCart);
@@ -121,6 +122,7 @@ export function ProductDetails() {
                 const y = ((e.clientY - top) / height) * 100;
                 setZoomStyle({ transformOrigin: `${x}% ${y}%` });
               }}
+              onClick={() => setIsFullscreen(true)}
             >
               <img src={image} alt={name}
                 className={`w-full max-w-sm object-contain transition-transform duration-200 ease-out ${isZoomed ? 'scale-[2.5]' : 'scale-100'}`}
@@ -179,6 +181,31 @@ export function ProductDetails() {
           </div>
         </div>
       </div>
+
+      {/* Fullscreen Image Modal */}
+      {isFullscreen && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 cursor-zoom-out backdrop-blur-sm"
+          onClick={() => setIsFullscreen(false)}
+        >
+          <button 
+            className="absolute top-6 right-6 p-2 text-white/70 hover:text-white bg-black/50 hover:bg-black/80 rounded-full transition-all"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullscreen(false);
+            }}
+          >
+            <X size={28} />
+          </button>
+          <img 
+            src={image} 
+            alt={name} 
+            className="max-w-full max-h-full object-contain cursor-default"
+            onClick={(e) => e.stopPropagation()}
+            onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.png"; }}
+          />
+        </div>
+      )}
     </>
   );
 }
