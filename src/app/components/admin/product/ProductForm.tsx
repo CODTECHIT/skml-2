@@ -42,20 +42,33 @@ export function ProductForm({ onClose, editId, initialData }: ProductFormProps) 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
     setUploading(true);
-    const formData = new FormData();
-    formData.append("image", e.target.files[0]);
+    
+    const files = Array.from(e.target.files);
+    const uploadedUrls: string[] = [];
 
     try {
-      const res = await api.post("/upload?type=product", formData, {
-        headers: { "Content-Type": "multipart/form-data" }
-      });
-      if (res.data.success) {
-        setImages(prev => [...prev, res.data.url]);
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const res = await api.post("/upload?type=product", formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+        
+        if (res.data.success) {
+          uploadedUrls.push(res.data.url);
+        }
+      }
+
+      if (uploadedUrls.length > 0) {
+        setImages(prev => [...prev, ...uploadedUrls]);
       }
     } catch (error) {
       console.error("Upload failed", error);
     } finally {
       setUploading(false);
+      // Reset the input value so the same files can be selected again if needed
+      e.target.value = "";
     }
   };
 
@@ -187,7 +200,7 @@ export function ProductForm({ onClose, editId, initialData }: ProductFormProps) 
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground">Images</label>
         <div className="border-2 border-dashed border-border rounded-xl p-8 flex flex-col items-center justify-center text-muted-foreground hover:bg-muted/50 hover:border-primary/50 transition-all cursor-pointer relative overflow-hidden group">
-          <input type="file" accept="image/png, image/jpeg, image/jpg, image/webp" onChange={handleImageUpload} disabled={uploading} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+          <input type="file" multiple accept="image/png, image/jpeg, image/jpg, image/webp" onChange={handleImageUpload} disabled={uploading} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
           <p className="text-sm font-medium group-hover:text-primary transition-colors">{uploading ? "Uploading to Cloudinary..." : "Click or drag images to upload"}</p>
         </div>
         {images.length > 0 && (

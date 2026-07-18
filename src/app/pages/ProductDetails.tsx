@@ -33,6 +33,7 @@ export function ProductDetails() {
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomStyle, setZoomStyle] = useState({ transformOrigin: 'center center' });
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const { data: product, isLoading, isError } = useGetProductById(id);
   const addToCart = useCartStore((state) => state.addToCart);
@@ -53,7 +54,8 @@ export function ProductDetails() {
   }
 
   const productId = product._id;
-  const image = product.images?.[0] || "/placeholder.png";
+  const images = product.images && product.images.length > 0 ? product.images : ["/placeholder.png"];
+  const image = images[selectedImageIndex] || images[0];
   const name = product.title || product.name;
   const price = product.price || 0;
   const originalPrice = product.originalPrice || product.discountPrice;
@@ -130,6 +132,23 @@ export function ProductDetails() {
                 onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.png"; }}
               />
             </div>
+
+            {/* Thumbnails */}
+            {images.length > 1 && (
+              <div className="absolute -bottom-6 left-0 right-0 flex justify-center gap-2 px-4 mt-4">
+                <div className="bg-background rounded-full p-2 flex gap-2 shadow-md border border-border">
+                  {images.map((img: string, idx: number) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedImageIndex(idx)}
+                      className={`w-12 h-12 rounded-full overflow-hidden border-2 transition-all ${selectedImageIndex === idx ? 'border-primary scale-110' : 'border-transparent hover:border-primary/50'}`}
+                    >
+                      <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Info */}
@@ -185,11 +204,11 @@ export function ProductDetails() {
       {/* Fullscreen Image Modal */}
       {isFullscreen && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 cursor-zoom-out backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
           onClick={() => setIsFullscreen(false)}
         >
           <button 
-            className="absolute top-6 right-6 p-2 text-white/70 hover:text-white bg-black/50 hover:bg-black/80 rounded-full transition-all"
+            className="absolute top-6 right-6 p-2 text-white/70 hover:text-white bg-black/50 hover:bg-black/80 rounded-full transition-all z-[110]"
             onClick={(e) => {
               e.stopPropagation();
               setIsFullscreen(false);
@@ -197,13 +216,30 @@ export function ProductDetails() {
           >
             <X size={28} />
           </button>
-          <img 
-            src={image} 
-            alt={name} 
-            className="max-w-full max-h-full object-contain cursor-default"
-            onClick={(e) => e.stopPropagation()}
-            onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.png"; }}
-          />
+          
+          <div className="flex-1 flex items-center justify-center w-full max-h-[80vh]">
+            <img 
+              src={image} 
+              alt={name} 
+              className="max-w-full max-h-full object-contain cursor-default"
+              onClick={(e) => e.stopPropagation()}
+              onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.png"; }}
+            />
+          </div>
+
+          {images.length > 1 && (
+            <div className="mt-6 flex gap-4 overflow-x-auto p-4" onClick={e => e.stopPropagation()}>
+              {images.map((img: string, idx: number) => (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedImageIndex(idx)}
+                  className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${selectedImageIndex === idx ? 'border-primary opacity-100 scale-105' : 'border-transparent opacity-50 hover:opacity-100'}`}
+                >
+                  <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover bg-white" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </>
