@@ -10,7 +10,7 @@ export function Footer() {
   const socialLinks = [
     { icon: Facebook, url: "#" },
     { icon: Instagram, url: INSTAGRAM_URL },
-    { icon: MessageCircle, url: `https://wa.me/${settings?.whatsapp || "910000000000"}?text=OK` },
+    { icon: MessageCircle, url: `https://wa.me/916300200986?text=OK` },
     { icon: Youtube, url: "#" },
   ];
 
@@ -51,26 +51,20 @@ export function Footer() {
           {/* Shop */}
           <div>
             <p className="font-poppins font-semibold text-foreground text-sm mb-3">Shop</p>
-            {["All Products", "New Arrivals", "Best Sellers", "Brands", "Wholesale Deals"].map((link) => (
-              <Link key={link} to="#" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">{link}</Link>
-            ))}
+            <Link to="/search" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">All Products</Link>
           </div>
 
           {/* My Account */}
           <div>
             <p className="font-poppins font-semibold text-foreground text-sm mb-3">My Account</p>
-            {["My Profile", "My Orders", "Wishlist", "Address Book"].map((link) => (
-              <Link key={link} to="#" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">{link}</Link>
-            ))}
+            <Link to="/profile" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">My Profile</Link>
+            <Link to="/orders" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">My Orders</Link>
           </div>
 
           {/* Help */}
           <div>
             <p className="font-poppins font-semibold text-foreground text-sm mb-3">Help & Support</p>
             <Link to="/about" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">About Us</Link>
-            {["Help Center", "Shipping Policy", "Returns & Refunds", "FAQs", "Contact Us"].map((link) => (
-              <Link key={link} to="#" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">{link}</Link>
-            ))}
           </div>
 
           {/* Contact */}
@@ -79,17 +73,21 @@ export function Footer() {
             <div className="space-y-2.5">
               <p className="flex items-start gap-2 text-muted-foreground text-xs leading-relaxed">
                 <MapPin size={11} className="flex-shrink-0 mt-0.5 text-primary" />
-                {settings?.address || "Near RTC Complex, Yellamanchili, Pincode 531055, Anakapalli District"}
+                Near Rtc complex yellamanchili pincode 531055 ANAKAPALLi district
               </p>
               <p className="flex items-center gap-2 text-muted-foreground text-xs">
                 <Mail size={11} className="flex-shrink-0 text-primary" />
-                {settings?.email || "[Email To be filled]"}
+                skmlmobilesylm@gmail.com
               </p>
               <p className="flex items-center gap-2 text-muted-foreground text-xs">
                 <Phone size={11} className="flex-shrink-0 text-primary" />
-                {settings?.phone || "[Phone To be filled]"}
+                +91 6300200986
               </p>
-              <p className="flex items-center gap-1.5 text-[#10B981] text-xs font-semibold">
+              <p className="text-muted-foreground text-xs pt-1">
+                <span className="font-semibold text-foreground">Proprietor:</span> Boddapu Lokesh
+              </p>
+
+              <p className="flex items-center gap-1.5 text-[#10B981] text-xs font-semibold pt-1">
                 <Shield size={11} className="flex-shrink-0" />
                 100% Secure Payments
               </p>

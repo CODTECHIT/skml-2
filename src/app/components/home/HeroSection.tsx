@@ -74,28 +74,85 @@ export function HeroSection() {
 
   return (
     <section className="bg-transparent pb-8">
-      {/* Light Amazon-style Category Bar */}
-      <div className="w-full bg-card border-b border-border text-muted-foreground overflow-x-auto mb-6 shadow-sm" style={{ scrollbarWidth: "none" }}>
-        <div className="flex items-center px-4 h-11 max-w-[1400px] mx-auto gap-2 md:gap-4" style={{ minWidth: "max-content" }}>
-          <Link
-            to="/categories"
-            className="px-2 py-1 text-sm font-medium border-b-2 border-transparent hover:border-primary hover:text-primary transition-all whitespace-nowrap"
-          >
-            All
-          </Link>
-          {(categories || []).map((cat: any) => {
-            const slug = cat.slug || cat.name.toLowerCase().replace(/ /g, "-");
-            const href = `/categories/${slug}`;
-            return (
-              <Link
-                key={cat._id}
-                to={href}
-                className="px-2 py-1 text-sm font-medium border-b-2 border-transparent hover:border-primary hover:text-primary transition-all whitespace-nowrap"
-              >
-                {cat.name}
-              </Link>
-            );
-          })}
+      <style>
+        {`
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee-scroll {
+            display: flex;
+            width: max-content;
+            animation: marquee 40s linear infinite;
+          }
+          .animate-marquee-scroll:hover {
+            animation-play-state: paused;
+          }
+          .no-scrollbar::-webkit-scrollbar {
+            display: none;
+          }
+          .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+        `}
+      </style>
+
+      {/* Category Marquee */}
+      <div className="w-full max-w-[1400px] mx-auto mb-6 px-4">
+        <div className="overflow-hidden no-scrollbar bg-card border border-border/50 rounded-2xl shadow-sm py-4 relative">
+          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-r from-card to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-l from-card to-transparent z-10 pointer-events-none" />
+          
+          <div className="animate-marquee-scroll flex items-center gap-8 md:gap-12 px-4">
+            {[...(categories?.length ? categories : [
+              { _id: "1", name: "Smartphones", slug: "smartphones" },
+              { _id: "2", name: "Accessories", slug: "accessories" },
+              { _id: "3", name: "Smartwatches", slug: "smartwatches" },
+              { _id: "4", name: "Tablets", slug: "tablets" },
+              { _id: "5", name: "Laptops", slug: "laptops" },
+              { _id: "6", name: "Headphones", slug: "headphones" },
+            ]), ...(categories?.length ? categories : [
+              { _id: "1", name: "Smartphones", slug: "smartphones" },
+              { _id: "2", name: "Accessories", slug: "accessories" },
+              { _id: "3", name: "Smartwatches", slug: "smartwatches" },
+              { _id: "4", name: "Tablets", slug: "tablets" },
+              { _id: "5", name: "Laptops", slug: "laptops" },
+              { _id: "6", name: "Headphones", slug: "headphones" },
+            ]), ...(categories?.length ? categories : [
+              { _id: "1", name: "Smartphones", slug: "smartphones" },
+              { _id: "2", name: "Accessories", slug: "accessories" },
+              { _id: "3", name: "Smartwatches", slug: "smartwatches" },
+              { _id: "4", name: "Tablets", slug: "tablets" },
+              { _id: "5", name: "Laptops", slug: "laptops" },
+              { _id: "6", name: "Headphones", slug: "headphones" },
+            ]), ...(categories?.length ? categories : [
+              { _id: "1", name: "Smartphones", slug: "smartphones" },
+              { _id: "2", name: "Accessories", slug: "accessories" },
+              { _id: "3", name: "Smartwatches", slug: "smartwatches" },
+              { _id: "4", name: "Tablets", slug: "tablets" },
+              { _id: "5", name: "Laptops", slug: "laptops" },
+              { _id: "6", name: "Headphones", slug: "headphones" },
+            ])].map((cat: any, index: number) => {
+              const slug = cat.slug || cat.name.toLowerCase().replace(/ /g, "-");
+              const href = `/categories/${slug}`;
+              const imgUrl = cat.image || cat.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random&color=fff&size=100`;
+              return (
+                <Link
+                  key={`${cat._id}-${index}`}
+                  to={href}
+                  className="flex flex-col items-center gap-2 group min-w-[70px] md:min-w-[90px]"
+                >
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden bg-muted flex items-center justify-center p-0.5 border-2 border-transparent group-hover:border-primary transition-colors shadow-sm">
+                    <img src={imgUrl} alt={cat.name} className="w-full h-full object-cover rounded-full" onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.png"; }} />
+                  </div>
+                  <span className="text-[10px] md:text-xs font-semibold text-center text-foreground group-hover:text-primary transition-colors whitespace-nowrap">
+                    {cat.name}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
 
