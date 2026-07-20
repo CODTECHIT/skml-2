@@ -53,6 +53,8 @@ export function Profile() {
       <>
         <Helmet>
           <title>My Wishlist | SKML Mobiles</title>
+          <meta name="description" content="View your saved wishlist items at SKML Mobiles. Save your favorite mobiles, electronics, and accessories for later." />
+          <meta name="robots" content="noindex, nofollow" />
         </Helmet>
         <div className="max-w-[800px] mx-auto px-4 py-8 font-poppins">
           <button
@@ -147,6 +149,8 @@ export function Profile() {
     <>
       <Helmet>
         <title>My Profile | SKML Mobiles</title>
+        <meta name="description" content="Manage your SKML Mobiles profile, view orders, update account details, and manage your wishlist." />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="max-w-[800px] mx-auto px-4 py-8 font-poppins">
         <h1 className="font-bold text-2xl text-foreground mb-6">My Profile</h1>

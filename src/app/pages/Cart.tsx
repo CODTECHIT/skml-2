@@ -16,6 +16,8 @@ export function Cart() {
     <>
       <Helmet>
         <title>Shopping Cart | SKML Mobiles</title>
+        <meta name="description" content="Review items in your shopping cart at SKML Mobiles. Proceed to checkout for fast delivery on electronics, mobiles, and accessories." />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       <div className="max-w-[1400px] mx-auto px-4 py-6">

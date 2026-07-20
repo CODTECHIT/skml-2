@@ -85,8 +85,17 @@ export function ProductDetails() {
   return (
     <>
       <Helmet>
-        <title>{name} | SKML Mobiles</title>
-        <meta name="description" content={`Buy ${name} at the best price on SKML Mobiles.`} />
+        <title>{name} | SKML Mobiles — Best Price, Fast Delivery</title>
+        <meta name="description" content={`Buy ${name} at the best price on SKML Mobiles. Shop now with fast delivery in Yellamanchili, Anakapalli District.`} />
+        <meta name="keywords" content={`${name}, buy ${name}, ${name} price, SKML Mobiles, mobiles Yellamanchili`} />
+        <link rel="canonical" href={`https://skmlmobiles.com/products/${id || ''}`} />
+        <meta property="og:title" content={`${name} | SKML Mobiles`} />
+        <meta property="og:description" content={`Buy ${name} at the best price on SKML Mobiles. Fast delivery available.`} />
+        <meta property="og:type" content="product" />
+        <meta property="og:image" content="https://skmlmobiles.com/image.jpeg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${name} | SKML Mobiles`} />
+        <meta name="twitter:description" content={`Buy ${name} at the best price on SKML Mobiles.`} />
       </Helmet>
 
       <div className="max-w-[1400px] mx-auto px-4 py-8">

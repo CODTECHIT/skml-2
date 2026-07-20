@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema(
     role: { type: String, enum: ["customer", "admin"], default: "customer" },
     resetPasswordToken: { type: String },
     resetPasswordExpire: { type: Date },
+    loginAttempts: { type: Number, default: 0 },
+    lockUntil: { type: Date },
+    refreshToken: { type: String },
+    refreshTokenExpire: { type: Date },
   },
   { timestamps: true }
 );
@@ -38,6 +42,25 @@ userSchema.methods.getResetPasswordToken = function () {
   this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
+};
+
+userSchema.methods.isLocked = function () {
+  if (!this.lockUntil) return false;
+  return this.lockUntil > Date.now();
+};
+
+userSchema.methods.incrementLoginAttempts = async function () {
+  this.loginAttempts = (this.loginAttempts || 0) + 1;
+  if (this.loginAttempts >= 5) {
+    this.lockUntil = new Date(Date.now() + 30 * 60 * 1000);
+  }
+  await this.save();
+};
+
+userSchema.methods.resetLoginAttempts = async function () {
+  this.loginAttempts = 0;
+  this.lockUntil = undefined;
+  await this.save();
 };
 
 export const User = mongoose.model("User", userSchema);

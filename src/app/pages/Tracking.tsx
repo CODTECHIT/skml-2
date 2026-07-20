@@ -42,6 +42,8 @@ export function Tracking() {
     <>
       <Helmet>
         <title>Track Order {trackingId} | SKML Mobiles</title>
+        <meta name="description" content={`Track your order ${trackingId} at SKML Mobiles. Real-time delivery status and updates.`} />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="max-w-[800px] mx-auto px-4 py-8">
         <div className="mb-6">

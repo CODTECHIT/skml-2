@@ -1,6 +1,31 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /admin/
 Disallow: /profile
 Disallow: /checkout
+Disallow: /orders
+Disallow: /tracking/
+Disallow: /forgot-password
+Disallow: /reset-password/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /profile
+Disallow: /checkout
+Disallow: /orders
+Disallow: /tracking/
+Disallow: /forgot-password
+Disallow: /reset-password/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /profile
+Disallow: /checkout
+Disallow: /orders
+
 Sitemap: https://skmlmobiles.com/sitemap.xml

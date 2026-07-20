@@ -26,8 +26,13 @@ export function CategoryProducts() {
   return (
     <>
       <Helmet>
-        <title>{categoryName} | SKML Mobiles</title>
-        <meta name="description" content={`Shop the best ${categoryName} at SKML Mobiles.`} />
+        <title>{categoryName} | SKML Mobiles — Shop Online</title>
+        <meta name="description" content={`Shop the best ${categoryName} at SKML Mobiles. Best prices, fast delivery in Yellamanchili, Anakapalli District.`} />
+        <meta name="keywords" content={`${categoryName}, buy ${categoryName}, SKML Mobiles, online shopping Yellamanchili`} />
+        <meta property="og:title" content={`${categoryName} | SKML Mobiles`} />
+        <meta property="og:description" content={`Shop the best ${categoryName} at SKML Mobiles. Best prices, fast delivery.`} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
       </Helmet>
 
       <div className="max-w-[1400px] mx-auto px-4 py-6">

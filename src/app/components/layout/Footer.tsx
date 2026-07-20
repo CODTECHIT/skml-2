@@ -65,6 +65,7 @@ export function Footer() {
           <div>
             <p className="font-poppins font-semibold text-foreground text-sm mb-3">Help & Support</p>
             <Link to="/about" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">About Us</Link>
+            <Link to="/terms" className="block text-muted-foreground text-xs py-1 hover:text-primary transition-colors">Terms & Conditions</Link>
           </div>
 
           {/* Contact */}

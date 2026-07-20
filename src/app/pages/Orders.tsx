@@ -25,6 +25,8 @@ export function Orders() {
     <>
       <Helmet>
         <title>My Orders | SKML Mobiles</title>
+        <meta name="description" content="View and track your orders at SKML Mobiles. Check order status, delivery updates, and order history." />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="max-w-[1400px] mx-auto px-4 py-8">
         <h1 className="font-poppins font-bold text-2xl text-foreground mb-6">My Orders</h1>

@@ -8,11 +8,17 @@ export function AboutUs() {
   return (
     <>
       <Helmet>
-        <title>About Us | SKML</title>
-        <meta
-          name="description"
-          content="Learn about SKML — your trusted destination for all mobiles, accessories, and services in Yellamanchili, Anakapalli District."
-        />
+        <title>About Us | SKML Mobiles — Your Trusted Store in Yellamanchili</title>
+        <meta name="description" content="Learn about SKML Mobiles — your trusted destination for mobiles, accessories, and services in Yellamanchili, Anakapalli District, Andhra Pradesh." />
+        <meta name="keywords" content="SKML Mobiles about, SKML Yellamanchili, mobile store Anakapalli, about SKML, trusted electronics store Andhra Pradesh" />
+        <link rel="canonical" href="https://skmlmobiles.com/about" />
+        <meta property="og:title" content="About Us | SKML Mobiles" />
+        <meta property="og:description" content="Learn about SKML Mobiles — your trusted destination for mobiles, accessories, and services in Yellamanchili." />
+        <meta property="og:url" content="https://skmlmobiles.com/about" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://skmlmobiles.com/image.jpeg" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="About Us | SKML Mobiles" />
       </Helmet>
 
       {/* ── Hero Banner ── */}

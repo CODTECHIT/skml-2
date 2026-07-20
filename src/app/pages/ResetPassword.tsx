@@ -53,6 +53,8 @@ export function ResetPassword() {
     <>
       <Helmet>
         <title>Reset Password | SKML Mobiles</title>
+        <meta name="description" content="Set a new password for your SKML Mobiles account." />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="max-w-[500px] mx-auto px-4 py-20 font-poppins">
         <div className="bg-card border border-border rounded-2xl p-8 shadow-sm">

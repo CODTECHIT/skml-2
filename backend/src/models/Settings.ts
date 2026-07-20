@@ -12,12 +12,12 @@ export interface ISettings extends mongoose.Document {
 
 const settingsSchema = new mongoose.Schema(
   {
-    storeName: { type: String, default: "HBGO" },
+    storeName: { type: String, default: "skml" },
     logoUrl: { type: String, default: "/image.jpeg" },
-    email: { type: String, default: "support@hbgo.com" },
-    phone: { type: String, default: "+91 0000000000" },
-    whatsapp: { type: String, default: "910000000000" },
-    address: { type: String, default: "Vempalli, Kadapa, (district), Andhra Pradesh" },
+    email: { type: String, default: "skmlmobilesylm@gmail.com" },
+    phone: { type: String, default: "+91 9014154866" },
+    whatsapp: { type: String, default: "6300200986" },
+    address: { type: String, default: "Yellamanchili, Anakapalli, Andhra Pradesh" },
     shippingCharge: { type: Number, default: 50 },
   },
   {

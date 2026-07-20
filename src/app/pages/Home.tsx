@@ -9,8 +9,18 @@ export function Home() {
   return (
     <div className="bg-gradient-to-b from-primary/15 via-primary/5 to-accent/15 min-h-screen">
       <Helmet>
-        <title>SKML | Best Deals on Electronics & Fashion</title>
-        <meta name="description" content="Shop the latest electronics, fashion, and lifestyle products at SKML." />
+        <title>SKML Mobiles | Best Deals on Electronics, Mobiles & Fashion in Yellamanchili</title>
+        <meta name="description" content="SKML Mobiles — your trusted online store for smartphones, accessories, electronics, fashion & lifestyle products in Yellamanchili, Anakapalli District. Best prices, fast delivery." />
+        <meta name="keywords" content="SKML Mobiles, mobiles Yellamanchili, buy phones online, electronics store, smartphones, accessories, fashion, best deals, online shopping" />
+        <link rel="canonical" href="https://skmlmobiles.com/" />
+        <meta property="og:title" content="SKML Mobiles | Best Deals on Electronics, Mobiles & Fashion" />
+        <meta property="og:description" content="Your trusted online store for smartphones, accessories, electronics, fashion & lifestyle products in Yellamanchili." />
+        <meta property="og:url" content="https://skmlmobiles.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://skmlmobiles.com/image.jpeg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="SKML Mobiles | Best Deals on Electronics, Mobiles & Fashion" />
+        <meta name="twitter:description" content="Your trusted online store for smartphones, accessories, electronics, fashion & lifestyle products in Yellamanchili." />
       </Helmet>
       <div className="pt-2">
         <HeroSection />

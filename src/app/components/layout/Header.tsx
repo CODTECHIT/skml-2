@@ -172,12 +172,12 @@ export function Header() {
           </button>
 
           {/* Business Name (Center) */}
-          <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-0">
+          <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 flex items-center justify-center z-0 pointer-events-none">
             <Link 
               to="/" 
-              className="flex items-center justify-center hover:opacity-80 transition-opacity"
+              className="flex items-center justify-center hover:opacity-80 transition-opacity pointer-events-auto"
             >
-              <img src={settings?.logoUrl || "/image.jpeg"} alt="SKML Logo" className="h-10 w-auto object-contain rounded" />
+              <img src={settings?.logoUrl || "/image.jpeg"} alt="SKML Logo" className="h-14 w-auto object-contain rounded" />
             </Link>
           </div>
 
@@ -193,7 +193,7 @@ export function Header() {
             </button>
 
             {/* Wishlist */}
-            <Link to="/profile?tab=wishlist" className="text-foreground p-1.5 relative" aria-label="Wishlist">
+            <Link to="/profile?tab=wishlist" className="hidden text-foreground p-1.5 relative" aria-label="Wishlist">
               <Heart size={18} className="stroke-[1.8]" />
               {wishlist.length > 0 && (
                 <span className="absolute top-0.5 right-0.5 w-[13px] h-[13px] bg-[#0F172A] text-white text-[8px] font-bold rounded-full flex items-center justify-center">
@@ -205,7 +205,7 @@ export function Header() {
             {/* Profile / Dashboard */}
             <Link 
               to="/profile" 
-              className="text-foreground p-1.5" 
+              className="hidden text-foreground p-1.5" 
               aria-label="Profile"
             >
               <User size={18} className="stroke-[1.8]" />

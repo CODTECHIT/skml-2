@@ -127,7 +127,13 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
       paymentMethod: data.paymentMethod,
       address: data.address,
       paymentStatus: "Pending",
-      orderStatus: "Pending"
+      orderStatus: "Pending",
+      auditHistory: [{
+        status: "Pending",
+        changedBy: (req as any).user._id,
+        changedAt: new Date(),
+        note: "Order created"
+      }]
     });
 
     if (data.paymentMethod === "COD") {
@@ -187,6 +193,14 @@ export const updateOrder = async (req: Request, res: Response, next: NextFunctio
 
     if (data.orderStatus) {
       order.orderStatus = data.orderStatus as any;
+
+      // Record audit entry
+      order.auditHistory.push({
+        status: data.orderStatus as string,
+        changedBy: (req as any).user._id,
+        changedAt: new Date(),
+        note: `Status changed from ${oldStatus} to ${data.orderStatus}`,
+      });
 
       // Handle stock restoration on Cancellation or Refund
       const isTransitioningToRestoration =

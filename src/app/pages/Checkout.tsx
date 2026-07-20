@@ -222,6 +222,8 @@ export function Checkout() {
     <>
       <Helmet>
         <title>Checkout | SKML Mobiles</title>
+        <meta name="description" content="Complete your order securely at SKML Mobiles. Multiple payment options available including Razorpay, UPI, and COD." />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="max-w-[1400px] mx-auto px-4 py-8 font-poppins">
         <h1 className="font-bold text-2xl text-foreground mb-6">Checkout</h1>

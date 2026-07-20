@@ -56,6 +56,8 @@ export function Register() {
     <>
       <Helmet>
         <title>Register | SKML Mobiles</title>
+        <meta name="description" content="Create your free SKML Mobiles account. Get access to exclusive deals, order tracking, and wishlist on phones, accessories, and electronics." />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="max-w-[500px] mx-auto px-4 py-12">
         <div className="bg-card border border-border rounded-2xl p-8 shadow-sm">

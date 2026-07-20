@@ -17,8 +17,15 @@ export function Categories() {
   return (
     <>
       <Helmet>
-        <title>All Categories | SKML</title>
-        <meta name="description" content="Browse all categories of products at SKML." />
+        <title>All Categories | SKML Mobiles — Shop Mobiles, Electronics & More</title>
+        <meta name="description" content="Browse all product categories at SKML Mobiles — smartphones, accessories, electronics, fashion, and lifestyle products in Yellamanchili." />
+        <meta name="keywords" content="SKML Mobiles categories, mobiles, accessories, electronics, fashion, smartphones, Yellamanchili" />
+        <link rel="canonical" href="https://skmlmobiles.com/categories" />
+        <meta property="og:title" content="All Categories | SKML Mobiles" />
+        <meta property="og:description" content="Browse all product categories at SKML Mobiles — smartphones, accessories, electronics, fashion, and more." />
+        <meta property="og:url" content="https://skmlmobiles.com/categories" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
       </Helmet>
 
       <div className="max-w-[1400px] mx-auto px-4 py-8">

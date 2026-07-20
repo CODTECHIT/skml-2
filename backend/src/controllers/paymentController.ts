@@ -143,8 +143,8 @@ export const handleRazorpayWebhook = async (req: Request, res: Response, next: N
       return res.status(500).json({ success: false, message: "Webhook secret is not configured" });
     }
 
-    // Verify webhook signature using the stringified parsed body
-    const rawBody = JSON.stringify(req.body);
+    // Verify webhook signature using the raw request body (preserved by express.json verify callback)
+    const rawBody = (req as any).rawBody || JSON.stringify(req.body);
     const expectedSignature = crypto
       .createHmac("sha256", webhookSecret)
       .update(rawBody)

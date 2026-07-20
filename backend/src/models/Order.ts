@@ -23,7 +23,15 @@ const orderSchema = new mongoose.Schema(
       city: { type: String, required: true },
       state: { type: String, required: true },
       zipCode: { type: String, required: true },
-    }
+    },
+    auditHistory: [
+      {
+        status: { type: String, required: true },
+        changedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        changedAt: { type: Date, default: Date.now },
+        note: { type: String },
+      }
+    ]
   },
   { timestamps: true }
 );

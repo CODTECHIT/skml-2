@@ -59,6 +59,8 @@ export function Login() {
     <>
       <Helmet>
         <title>Login | SKML Mobiles</title>
+        <meta name="description" content="Login to your SKML Mobiles account to access orders, wishlist, and exclusive deals on mobiles and electronics." />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="max-w-[500px] mx-auto px-4 py-20">
         <div className="bg-card border border-border rounded-2xl p-8 shadow-sm">

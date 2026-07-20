@@ -26,6 +26,7 @@ export function Search() {
     <>
       <Helmet>
         <title>Search Results for "{query}" | SKML Mobiles</title>
+        <meta name="description" content={`Search results for "${query}" at SKML Mobiles. Find the best deals on mobiles, electronics, and accessories.`} />
       </Helmet>
 
       <div className="max-w-[1400px] mx-auto px-4 py-8">
