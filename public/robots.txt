@@ -28,4 +28,4 @@ Disallow: /profile
 Disallow: /checkout
 Disallow: /orders
 
-Sitemap: https://skmlmobiles.com/sitemap.xml
+Sitemap: https://www.skmlmobilesylm.com/sitemap.xml
