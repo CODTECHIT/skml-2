@@ -154,9 +154,10 @@ export const useCartStore = create<CartState>()(
 
       syncCart: async () => {
         try {
-          const dbCartItems = await cartService.getCart();
+          const res = await cartService.getCart();
+          const dbCartItems = Array.isArray(res) ? res : (res?.data && Array.isArray(res.data) ? res.data : []);
           // Filter out items where the product has been deleted from database
-          const validCartItems = (dbCartItems || []).filter((item: any) => item.productId !== null);
+          const validCartItems = dbCartItems.filter((item: any) => item && item.productId !== null);
           
           const cartItems: CartItem[] = validCartItems.map((item: any) => {
             const prod = item.productId || {};

@@ -2,13 +2,16 @@ import { Request, Response, NextFunction } from "express";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import { ErrorResponse } from "../utils/errorResponse";
+import { Order } from "../models/Order";
+import { Cart } from "../models/Cart";
+import { User } from "../models/User";
+import { sendInvoice } from "../services/emailService";
 
 export const createOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { orderId } = req.body;
     if (!orderId) return next(new ErrorResponse("Order ID is required", 400));
 
-    const { Order } = await import("../models/Order");
     const order = await Order.findById(orderId);
     if (!order) return next(new ErrorResponse("Order not found", 404));
 
@@ -75,11 +78,6 @@ export const verifyPayment = async (req: Request, res: Response, next: NextFunct
 
     if (razorpay_signature === expectedSign) {
       if (orderId) {
-        const { Order } = await import("../models/Order");
-        const { Cart } = await import("../models/Cart");
-        const { User } = await import("../models/User");
-        const { sendInvoice } = await import("../services/emailService");
-
         const order = await Order.findById(orderId);
         if (order) {
           order.paymentStatus = "Paid";
@@ -162,11 +160,6 @@ export const handleRazorpayWebhook = async (req: Request, res: Response, next: N
       const orderId = paymentEntity.notes?.orderId;
 
       if (orderId) {
-        const { Order } = await import("../models/Order");
-        const { Cart } = await import("../models/Cart");
-        const { User } = await import("../models/User");
-        const { sendInvoice } = await import("../services/emailService");
-
         const order = await Order.findById(orderId);
         if (order && order.paymentStatus !== "Paid") {
           order.paymentStatus = "Paid";
